@@ -1,4 +1,5 @@
 import { RouteOptions } from 'fastify'
+import type { PostgresDb } from 'fastify-postgres'
 
 export const sharex: RouteOptions = {
   method: 'POST',
@@ -8,8 +9,8 @@ export const sharex: RouteOptions = {
       200: {
         type: 'object',
         properties: {
-          exit_code: { type: 'number' },
-          error: { type: 'string' }
+          statusCode: { type: 'number' },
+          message: { type: 'string' }
         }
       }
     }
@@ -17,11 +18,20 @@ export const sharex: RouteOptions = {
   handler: async (request, reply) => {
     const data = await request.file()
     if (!data || Array.isArray(data.fields.key))
-      return { exit_code: 1, error: 'Invalid request' }
+      throw { statusCode: 400, message: 'Invalid body!' }
+
     const key = (data.fields.key as any).value;
-    if (key !== 'abcdefgh')
-      return { exit_code: 2, error: 'Unknown key' }
-    console.log(data.filename, key)
-    return { exit_code: 0, error: null }
+    if (!(await keyAllowed(request.server.pg, key)))
+      throw { statusCode: 401, message: 'Invalid key!' }
+
+    console.log(data.filename)
+    return { message: 'Successfully uploaded!' }
   },
+}
+
+async function keyAllowed(pg: PostgresDb, key: string) {
+  const { rows } = await pg.query(
+    'SELECT * FROM users WHERE key=$1', [key],
+  )
+  return rows.length > 0
 }

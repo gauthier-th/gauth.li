@@ -1,12 +1,16 @@
 import Fastify, { FastifyInstance } from 'fastify'
 import routes from './routes'
 import fastifyMultipart from 'fastify-multipart'
+import fastifyPostgres from 'fastify-postgres'
 
 const server: FastifyInstance = Fastify({
   logger: process.env.NODE_ENV !== 'production'
 })
 
 server.register(fastifyMultipart)
+server.register(fastifyPostgres, {
+  connectionString: process.env.CONNECTION_STRING
+})
 
 export async function start() {
   try {
