@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ping_1 = require("./ping");
+const sharex_1 = require("./sharex");
 const routes = [
-    ping_1.ping
+    sharex_1.sharex
 ];
 exports.default = routes;
 //# sourceMappingURL=index.js.map

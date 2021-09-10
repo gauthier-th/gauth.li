@@ -6,8 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.start = void 0;
 const fastify_1 = __importDefault(require("fastify"));
 const routes_1 = __importDefault(require("./routes"));
+const fastify_multipart_1 = __importDefault(require("fastify-multipart"));
+const fastify_postgres_1 = __importDefault(require("fastify-postgres"));
 const server = fastify_1.default({
     logger: process.env.NODE_ENV !== 'production'
+});
+server.register(fastify_multipart_1.default);
+server.register(fastify_postgres_1.default, {
+    connectionString: process.env.CONNECTION_STRING
 });
 async function start() {
     try {
