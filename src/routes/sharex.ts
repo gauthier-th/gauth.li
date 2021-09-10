@@ -1,12 +1,12 @@
 import path from 'path'
 import fs from 'fs'
 import util from 'util'
-import { pipeline } from 'stream';
-import { RouteOptions } from 'fastify'
+import { pipeline } from 'stream'
 import { generateId } from '../utils'
+import type { RouteOptions } from 'fastify'
 import type { PostgresDb } from 'fastify-postgres'
-import type { MultipartFile } from 'fastify-multipart';
-import { DBFile, DBUser } from '../types';
+import type { MultipartFile } from 'fastify-multipart'
+import type { DBFile, DBUser } from '../types'
 
 const pump = util.promisify(pipeline)
 
@@ -57,7 +57,6 @@ async function saveFile(pg: PostgresDb, data: MultipartFile, user: DBUser): Prom
     createdAt: Date.now()
   };
 
-  console.log(user.id);
   await pg.query(
     'INSERT INTO files ("id", "filename", "mime", "userId", "createdAt") VALUES ($1, $2, $3, $4, to_timestamp($5))',
     [ file.id, file.filename, file.mime, file.createdAt, Math.round(file.createdAt / 1000)],
