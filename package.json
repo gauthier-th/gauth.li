@@ -20,11 +20,13 @@
   },
   "homepage": "https://github.com/gauthier-th/gauth.li#readme",
   "devDependencies": {
+    "@types/busboy": "^0.2.4",
     "@types/node": "^16.4.13",
     "typescript": "^4.3.5"
   },
   "dependencies": {
     "dotenv": "^10.0.0",
-    "fastify": "^3.20.1"
+    "fastify": "^3.20.1",
+    "fastify-multipart": "^4.0.7"
   }
 }

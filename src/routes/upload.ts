@@ -1,8 +1,8 @@
 import { RouteOptions } from 'fastify'
 
-export const ping: RouteOptions = {
-  method: 'GET',
-  url: '/',
+export const upload: RouteOptions = {
+  method: 'POST',
+  url: '/new',
   schema: {
     // request needs to have a querystring with a `name` parameter
     querystring: {
@@ -24,5 +24,6 @@ export const ping: RouteOptions = {
   },
   handler: async (request, reply) => {
     return { hello: 'world' }
-  }
+  },
+
 }

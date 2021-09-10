@@ -1,9 +1,12 @@
 import Fastify, { FastifyInstance } from 'fastify'
 import routes from './routes'
+import fastifyMultipart from 'fastify-multipart'
 
 const server: FastifyInstance = Fastify({
   logger: process.env.NODE_ENV !== 'production'
 })
+
+server.register(fastifyMultipart)
 
 export async function start() {
   try {

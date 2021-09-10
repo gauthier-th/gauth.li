@@ -1,9 +1,9 @@
 import { RouteOptions } from 'fastify'
 
-import { ping } from './ping'
+import { sharex } from './sharex'
 
 const routes: RouteOptions[] = [
-  ping
+  sharex
 ]
 
 export default routes
