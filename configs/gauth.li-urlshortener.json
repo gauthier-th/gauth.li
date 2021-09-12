@@ -1,0 +1,14 @@
+{
+  "Version": "13.5.0",
+  "Name": "gauth.li-urlshortener",
+  "DestinationType": "URLShortener",
+  "RequestMethod": "POST",
+  "RequestURL": "https://gauth.li/url",
+  "Body": "FormURLEncoded",
+  "Arguments": {
+    "key": "0jIpmepSA7sEA4wkpGtIOmZNWK7W7O",
+    "url": "$input$"
+  },
+  "URL": "https://gauth.li/$json:link.id$",
+  "DeletionURL": "https://gauth.li/delete/$json:link.id$"
+}

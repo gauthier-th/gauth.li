@@ -1,0 +1,14 @@
+{
+  "Version": "13.5.0",
+  "Name": "gauth.li-upload",
+  "DestinationType": "ImageUploader, FileUploader",
+  "RequestMethod": "POST",
+  "RequestURL": "https://gauth.li/sharex",
+  "Body": "MultipartFormData",
+  "Arguments": {
+    "key": "0jIpmepSA7sEA4wkpGtIOmZNWK7W7O"
+  },
+  "FileFormName": "file",
+  "URL": "https://gauth.li/$json:file.id$",
+  "DeletionURL": "https://gauth.li/delete/$json:file.id$"
+}

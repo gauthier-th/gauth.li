@@ -10,6 +10,9 @@ export const link: RouteOptions = {
     const id = (request.params as { id: string }).id
     const idInfos = await getId(request.server.pg, id)
 
+    if (!idInfos)
+      throw { statusCode: 401, message: 'Invalid link!' }
+
     if (idInfos.type === 'file') {
       const file = await getFile(request.server.pg, id)
       if (!file)
