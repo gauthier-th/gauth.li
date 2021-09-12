@@ -1,11 +1,11 @@
 import { RouteOptions } from 'fastify'
 
 import { sharex } from './sharex'
-import { image } from './image'
+import { link } from './link'
 
 const routes: RouteOptions[] = [
   sharex,
-  image,
+  link,
 ]
 
 export default routes

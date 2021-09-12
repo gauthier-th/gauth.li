@@ -13,30 +13,19 @@ const pump = util.promisify(pipeline)
 export const sharex: RouteOptions = {
   method: 'POST',
   url: '/sharex',
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          statusCode: { type: 'number' },
-          message: { type: 'string' }
-        }
-      }
-    }
-  },
   handler: async (request, reply) => {
     const data = await request.file()
     if (!data || Array.isArray(data.fields.key))
       throw { statusCode: 400, message: 'Invalid body!' }
 
-    const key = (data.fields.key as any).value;
-    const user = await getUserByKey(request.server.pg, key);
+    const key = (data.fields.key as any).value
+    const user = await getUserByKey(request.server.pg, key)
     if (!user)
       throw { statusCode: 401, message: 'Invalid key!' }
 
-    await saveFile(request.server.pg, data, user)
+    const file = await saveFile(request.server.pg, data, user)
 
-    return { message: 'Successfully uploaded!' }
+    return { message: 'Successfully uploaded!', file }
   },
 }
 
@@ -55,11 +44,15 @@ async function saveFile(pg: PostgresDb, data: MultipartFile, user: DBUser): Prom
     mime: data.mimetype,
     userId: user.id,
     createdAt: Date.now()
-  };
+  }
 
   await pg.query(
+    'INSERT INTO ids ("id", "type") VALUES ($1, $2)',
+    [ file.id, 'file' ],
+  )
+  await pg.query(
     'INSERT INTO files ("id", "filename", "mime", "userId", "createdAt") VALUES ($1, $2, $3, $4, to_timestamp($5))',
-    [ file.id, file.filename, file.mime, file.createdAt, Math.round(file.createdAt / 1000)],
+    [ file.id, file.filename, file.mime, file.userId, Math.round(file.createdAt / 1000)],
   )
 
   const stream = fs.createWriteStream(path.join(__dirname, '../../uploads/', file.id))
