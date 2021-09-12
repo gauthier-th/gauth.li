@@ -1,5 +1,6 @@
 import Fastify, { FastifyInstance } from 'fastify'
 import routes from './routes'
+import fastifyFormbody from 'fastify-formbody'
 import fastifyMultipart from 'fastify-multipart'
 import fastifyPostgres from 'fastify-postgres'
 
@@ -11,6 +12,7 @@ server.register(fastifyMultipart)
 server.register(fastifyPostgres, {
   connectionString: process.env.CONNECTION_STRING
 })
+server.register(fastifyFormbody)
 
 export async function start() {
   try {

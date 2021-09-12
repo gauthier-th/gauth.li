@@ -25,7 +25,7 @@ export const link: RouteOptions = {
       if (!link)
         throw { statusCode: 401, message: 'Invalid link!' }
 
-      reply.redirect(link.link);
+      reply.redirect(link.link)
     }
   },
 }
