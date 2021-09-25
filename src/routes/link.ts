@@ -21,6 +21,7 @@ export const link: RouteOptions = {
       const stream = fs.createReadStream(path.join(__dirname, '../../uploads/', file.id))
 
       reply.type(file.mime)
+      reply.header('Content-Disposition', `filename="${file.filename}"`)
       reply.send(stream)
     }
     else if (idInfos.type === 'link') {
