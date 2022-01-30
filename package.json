@@ -5,8 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index",
-    "build": "tsc",
-    "watch": "tsc -w -p .",
+    "server:build": "tsc",
+    "server:dev": "tsc -w -p .",
+    "web-app:build": "rollup --config web-app/rollup.config.js",
+    "web-app:dev": "rollup --config web-app/rollup.config.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,8 +22,21 @@
   },
   "homepage": "https://github.com/gauthier-th/gauth.li#readme",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.0.0",
+    "@tsconfig/svelte": "^2.0.0",
     "@types/busboy": "^0.2.4",
     "@types/node": "^16.4.13",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
+    "svelte-check": "^2.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "tslib": "^2.0.0",
     "typescript": "^4.3.5"
   },
   "dependencies": {
@@ -31,6 +46,7 @@
     "fastify-formbody": "^5.1.0",
     "fastify-multipart": "^4.0.7",
     "fastify-postgres": "^3.6.0",
+    "fastify-static": "^4.5.0",
     "pg": "^8.7.1"
   }
 }

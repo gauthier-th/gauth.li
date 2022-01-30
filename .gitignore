@@ -77,3 +77,6 @@ typings/
 
 # Dist folder
 dist/
+
+# Build folder of Web App
+web-app/public/build/
