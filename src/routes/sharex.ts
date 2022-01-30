@@ -6,7 +6,7 @@ import { generateId } from '../utils'
 import type { RouteOptions } from 'fastify'
 import type { PostgresDb } from 'fastify-postgres'
 import type { MultipartFile } from 'fastify-multipart'
-import type { DBFile, DBUser } from '../types'
+import type { DBFile, DBUser } from '../types/database'
 
 const pump = util.promisify(pipeline)
 

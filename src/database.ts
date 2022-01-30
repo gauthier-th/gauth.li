@@ -1,4 +1,4 @@
-import type { DBUser, DBId, DBFile, DBLink } from './types'
+import type { DBUser, DBId, DBFile, DBLink } from './types/database'
 import type { PostgresDb } from 'fastify-postgres'
 
 export async function getUser(pg: PostgresDb, id: string) {

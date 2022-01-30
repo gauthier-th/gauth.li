@@ -3,7 +3,7 @@ import fs from 'fs'
 import { generateId } from '../utils'
 import type { RouteOptions } from 'fastify'
 import type { PostgresDb } from 'fastify-postgres'
-import type { DBLink, DBUser } from '../types'
+import type { DBLink, DBUser } from '../types/database'
 
 export const url: RouteOptions = {
   method: 'POST',
