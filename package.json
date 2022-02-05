@@ -47,6 +47,8 @@
     "fastify-multipart": "^4.0.7",
     "fastify-postgres": "^3.6.0",
     "fastify-static": "^4.5.0",
-    "pg": "^8.7.1"
+    "papercss": "^1.8.3",
+    "pg": "^8.7.1",
+    "svelte-routing": "^1.6.0"
   }
 }

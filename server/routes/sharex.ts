@@ -15,7 +15,7 @@ export const sharex: RouteOptions = {
   url: '/sharex',
   handler: async (request, reply) => {
     const data = await request.file()
-    if (!data || Array.isArray(data.fields.key))
+    if (!data ||!data.fields.key || Array.isArray(data.fields.key))
       throw { statusCode: 400, message: 'Invalid body!' }
 
     const key = (data.fields.key as any).value
