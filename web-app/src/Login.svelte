@@ -25,6 +25,8 @@
 				if (res.statusCode === 200) {
 					keyStore.set(key);
 					logged = true;
+					key = "";
+					loginPromise = null;
 				}
 			})
 	}

@@ -17,7 +17,7 @@ server.register(fastifyPostgres, {
 server.register(fastifyFormbody)
 server.register(fastifyStatic, {
   root: path.join(__dirname, '../web-app/public'),
-  prefix: '/app',
+  prefix: '/public',
 })
 
 export async function start() {
