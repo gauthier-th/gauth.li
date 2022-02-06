@@ -2,11 +2,15 @@
 	
 	import { onMount } from 'svelte';
 	import { keyStore } from './stores';
+	import type { DBFile } from '../../server/types/database';
 	import type { ResponseProps } from '../../server/routes/files';
 	
 	let key: string = "";
 	let page: number = 0;
 	let limit: number = 10;
+	let fileToDelete: DBFile | null = null;
+
+	let modalConfirmDelete: HTMLInputElement;
 
 	keyStore.subscribe((value: string) => {
 		key = value;
@@ -39,6 +43,27 @@
 		await reloadData();
 	}
 
+	async function deleteFilePopup(file: DBFile) {
+		fileToDelete = file;
+		modalConfirmDelete.checked = true;
+	}
+
+	async function deleteFile() {
+		if (!fileToDelete)
+			return;
+		await fetch(`/delete/${fileToDelete.id}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({ key }),
+		})
+			.then((res) => res.json())
+		await reloadData();
+		modalConfirmDelete.checked = false;
+		fileToDelete = null;
+	}
+
 </script>
 
 <div class="page-container container">
@@ -47,6 +72,10 @@
 		{#await dataPromise}
 			<p>Loading...</p>
 		{:then data}
+			<div class="flex justify-center w-100">
+				<button class="btn-small" disabled={page === 0} on:click={previousPage}>Previous</button>
+				<button class="btn-small" disabled={page === data.pageCount - 1} on:click={nextPage}>Next</button>
+			</div>
 			<table>
 				<thead>
 					<tr>
@@ -65,18 +94,36 @@
 							</td>
 							<td class="align-middle">{new Date(file.createdAt).toLocaleString()}</td>
 							<td class="align-middle">
-								<button class="btn-danger btn-small">Delete</button>
+								<button class="btn-danger btn-small" on:click={() => deleteFilePopup(file)}>Delete</button>
 							</td>
 						</tr>
 					{/each}
 				</tbody>
 			</table>
 			<div class="flex justify-center w-100">
-				<button disabled={page === 0} on:click={previousPage}>Previous</button>
-				<button disabled={page === data.pageCount - 1} on:click={nextPage}>Next</button>
+				<button class="btn-small" disabled={page === 0} on:click={previousPage}>Previous</button>
+				<button class="btn-small" disabled={page === data.pageCount - 1} on:click={nextPage}>Next</button>
 			</div>
 		{:catch}
 			<p class="text-danger">An unknown error occured.</p>
 		{/await}
 	{/if}
+</div>
+
+<input class="modal-state" id="modal-file-urls" type="checkbox" bind:this={modalConfirmDelete}>
+<div class="modal">
+	<label class="modal-bg" for="modal-file-urls"></label>
+	<div class="modal-body">
+		<label class="btn-close" for="modal-file-urls">X</label>
+		<h4 class="modal-title">Confirm deletion</h4>
+		{#if fileToDelete}
+			<p class="modal-text">
+				Are you sure to delete file <a href={location.origin + "/" + fileToDelete.id} target="_blank">{fileToDelete.filename}</a>?
+			</p>
+		{/if}
+		<div class="flex justify-end">
+			<label class="paper-btn" for="modal-file-urls">No!</label>
+			<button class="btn-danger" on:click={deleteFile}>Delete!</button>
+		</div>
+	</div>
 </div>

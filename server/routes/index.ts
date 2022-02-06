@@ -6,6 +6,7 @@ import { webApp, webAppRedirect } from './web-app'
 import { link } from './link'
 import { login } from './login'
 import { files } from './files'
+import { del } from './delete'
 
 const routes: RouteOptions[] = [
   sharex,
@@ -15,6 +16,7 @@ const routes: RouteOptions[] = [
   link,
   login,
   files,
+  del,
 ]
 
 export default routes
