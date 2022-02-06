@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Router, Link, Route } from "svelte-routing";
+	import { Router, Link, Route, navigate } from "svelte-routing";
 
 	import { keyStore } from './stores';
 
@@ -9,6 +9,7 @@
 
 	async function logout() {
 		keyStore.set(null);
+		navigate("/app/");
 	}
 
 	export let url = "";
@@ -18,7 +19,7 @@
 	<Router url={url}>
 		<nav class="border fixed split-nav">
 			<div class="nav-brand">
-				<h3><Link to="/app">gauth.li</Link></h3>
+				<h3><Link to="/app/">gauth.li</Link></h3>
 			</div>
 			<div class="collapsible">
 				<input id="collapsible1" type="checkbox" name="collapsible1">
@@ -29,7 +30,7 @@
 				</label>
 				<div class="collapsible-body">
 					<ul class="inline">
-						<li><Link to="/app">New upload</Link></li>
+						<li><Link to="/app/">New upload</Link></li>
 						<li><Link to="/app/uploads">Show uploads</Link></li>
 						<li><a href="/app/logout" on:click|preventDefault={logout}>Logout</a></li>
 					</ul>

@@ -5,7 +5,6 @@
 	let key: string = "";
 
 	keyStore.subscribe((value) => {
-		console.log("keyStore changed: " + value);
 		logged = value !== null;
 	});
 
@@ -28,7 +27,7 @@
 					key = "";
 					loginPromise = null;
 				}
-			})
+			});
 	}
 </script>
 
