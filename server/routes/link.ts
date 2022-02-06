@@ -7,11 +7,13 @@ export const link: RouteOptions = {
   method: 'GET',
   url: '/:id',
   handler: async (request, reply) => {
-    const id = (request.params as { id: string }).id
-    const idInfos = await getId(request.server.pg, id)
+    let id = (request.params as { id: string }).id
 
     if (!id)
       return reply.redirect('/app')
+    id = id.split(".")[0]
+
+    const idInfos = await getId(request.server.pg, id)
 
     if (!idInfos)
       throw { statusCode: 401, message: 'Invalid link!' }
