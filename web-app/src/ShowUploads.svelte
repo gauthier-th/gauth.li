@@ -28,7 +28,6 @@
 			body: JSON.stringify({ key, page }),
 		})
 			.then((res) => res.json())
-			.then((res) => res)
 	}
 	onMount(() => {
 		reloadData();
