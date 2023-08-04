@@ -1,11 +1,7 @@
-body {
-  margin: 0;
-  padding: 0;
-}
-
-.page-container {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+html {
+  border: none;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
 }
 
 .flex {
@@ -42,4 +38,9 @@ body {
 
 .align-middle {
   vertical-align: middle;
+}
+
+h2 {
+  margin: 1rem 0 3rem 0;
+  text-align: center;
 }
