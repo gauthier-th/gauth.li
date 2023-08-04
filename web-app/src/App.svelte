@@ -4,9 +4,9 @@
 	import { keyStore } from './stores';
 
 	import Login from "./Login.svelte";
-	import Home from "./Home.svelte";
-	import NewUpload from "./NewUpload.svelte";
 	import ShowUploads from "./ShowUploads.svelte";
+	import NewUpload from "./NewUpload.svelte";
+	import Settings from "./Settings.svelte";
 
 	async function logout() {
 		keyStore.set(null);
@@ -32,16 +32,16 @@
 				<div class="collapsible-body">
 					<ul class="inline">
 						<li><Link to="/app/new">New upload</Link></li>
-						<li><Link to="/app/list">Show uploads</Link></li>
+						<li><Link to="/app/settings">Settings</Link></li>
 						<li><a href="/app/logout" on:click|preventDefault={logout}>Logout</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<div>
-			<Route path="/app" component="{Home}" />
+			<Route path="/app/" component="{ShowUploads}" />
 			<Route path="/app/new" component="{NewUpload}" />
-			<Route path="/app/list" component="{ShowUploads}" />
+			<Route path="/app/settings" component="{Settings}" />
 		</div>
 	</Router>
 </Login>
