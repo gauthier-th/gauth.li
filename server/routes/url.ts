@@ -1,5 +1,3 @@
-import path from 'path'
-import fs from 'fs'
 import { generateId } from '../utils'
 import type { RouteOptions } from 'fastify'
 import type { PostgresDb } from 'fastify-postgres'

@@ -1,9 +1,11 @@
+import bcrypt from 'bcrypt'
 import type { RouteOptions } from 'fastify'
 import type { PostgresDb } from 'fastify-postgres'
 import type { DBUser } from '../types/database'
 
 export type BodyProps = {
-  key: string;
+  username: string;
+  password: string;
 }
 
 export const login: RouteOptions = {
@@ -13,7 +15,8 @@ export const login: RouteOptions = {
     body: {
       type: 'object',
       properties: {
-        key: { type: 'string' },
+        username: { type: 'string' },
+        password: { type: 'string' },
       },
     }
   },
@@ -21,20 +24,24 @@ export const login: RouteOptions = {
     if (!request.body)
       throw { statusCode: 400, message: 'Invalid body!' }
 
-    const { key } = request.body as BodyProps
+    const { username, password } = request.body as BodyProps
 
-    const user = await verifyUserAuth(request.server.pg, key)
+    const user = await findUser(request.server.pg, username)
     if (!user)
-      throw { statusCode: 401, message: 'Invalid key!' }
+      throw { statusCode: 401, message: 'Invalid username/password!' }
+    if (!await bcrypt.compare(password, user.password))
+      throw { statusCode: 401, message: 'Invalid username/password!' }
 
-    reply.code(200).send({ statusCode: 200 })
+    const { key } = user
+
+    reply.code(200).send({ statusCode: 200, key })
   },
 }
 
-async function verifyUserAuth(pg: PostgresDb, key: string): Promise<DBUser> {
+async function findUser(pg: PostgresDb, username: string): Promise<DBUser | null> {
   const { rows } = await pg.query(
-    'SELECT * FROM users WHERE key=$1',
-    [ key ],
+    'SELECT * FROM users WHERE username=$1',
+    [ username ],
   )
   return rows.length > 0 ? rows[0] : null
 }

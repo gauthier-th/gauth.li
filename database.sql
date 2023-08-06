@@ -86,6 +86,7 @@ ALTER TABLE public.links OWNER TO postgres;
 CREATE TABLE public.users (
     id name NOT NULL,
     username text NOT NULL,
+    password text NOT NULL,
     key name,
     "createdAt" timestamp with time zone NOT NULL
 );

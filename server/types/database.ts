@@ -1,13 +1,14 @@
 export interface DBUser {
   id: string;
   username: string;
+  password: string;
   key?: string;
   createdAt: number;
 }
 
 export interface DBId {
   id: string;
-  type: 'file' | 'link';
+  type: 'file' | 'link' | 'user';
 }
 
 export interface DBFile {

@@ -52,7 +52,7 @@ async function verifyUserAuth(pg: PostgresDb, key: string): Promise<DBUser> {
 
 async function listFiles(pg: PostgresDb, userId: string, page: number = 0, limit: number = 10): Promise<DBFile[]> {
   const { rows } = await pg.query(
-    'SELECT * FROM files WHERE "userId"=$1 ORDER BY "createdAt" DESC LIMIT $2 OFFSET $3',
+    `SELECT * FROM files WHERE "userId"=$1 ORDER BY "createdAt" DESC LIMIT $2 OFFSET $3`,
     [
       userId,
       limit,

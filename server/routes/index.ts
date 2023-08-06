@@ -7,7 +7,6 @@ import { link } from './link'
 import { login } from './login'
 import { files } from './files'
 import { del } from './delete'
-import { key } from './key'
 
 const routes: RouteOptions[] = [
   sharex,
@@ -18,7 +17,6 @@ const routes: RouteOptions[] = [
   login,
   files,
   del,
-  key,
 ]
 
 export default routes
