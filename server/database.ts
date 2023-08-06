@@ -1,3 +1,4 @@
+import { generateAlphanumId } from './utils'
 import type { DBUser, DBId, DBFile, DBLink } from './types/database'
 import type { PostgresDb } from 'fastify-postgres'
 
@@ -19,4 +20,12 @@ export async function getDatabaseItem<T>(pg: PostgresDb, table: string, id: stri
     [ id ],
   )
   return rows.length > 0 ? rows[0] : null
+}
+
+export async function generateId(pg: PostgresDb): Promise<string> {
+  let id: string
+  do {
+    id = generateAlphanumId()
+  } while (await getId(pg, id))
+  return id
 }

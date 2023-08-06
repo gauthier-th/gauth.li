@@ -4,7 +4,9 @@
   import type { DBLink } from '../../server/types/database';
 
   let link: string = "";
+  let linkName: string = "";
   let createdLink: DBLink = null;
+  let error: string | null = null;
   let key: string = "";
 
   let modalLink: HTMLInputElement;
@@ -24,11 +26,16 @@
       body: new URLSearchParams({
         key,
         url: link,
+        name: linkName,
       }),
     }).then((res) => res.json());
-    link = "";
     createdLink = result.link;
+    error = result.message || null;
     modalLink.checked = true;
+    if (createdLink) {
+      link = "";
+      linkName = "";
+    }
   }
 
 </script>
@@ -37,9 +44,13 @@
   <h2>New link</h2>
   <div class="form-group">
     <label for="link">Enter the link to shorten:</label>
-    <input type="text" id="link" name="link" style="width: 24rem; max-width: 100%;" bind:value={link}>
-    <button class="margin-top" on:click={createLink}>Shorten link</button>
+    <input type="text" id="link" name="link" style="width: 24rem; max-width: 100%;" bind:value={link} placeholder="https://yourlink.com/">
   </div>
+  <div class="form-group">
+    <label for="linkName">(Optionnal) Name of the link:</label>
+    <input type="text" id="linkName" name="linkName" style="width: 24rem; max-width: 100%;" bind:value={linkName} placeholder="link-about-something">
+  </div>
+  <button class="margin-top" on:click={createLink}>Shorten link</button>
 </div>
 
 <input class="modal-state" id="modal-link" type="checkbox" bind:this={modalLink}>
@@ -55,7 +66,7 @@
           <!-- <button on:click={() => copyToClipboard(location.origin + "/" + createdLink.id)}>Copy link</button> -->
         </div>
       {:else}
-        <span>Unable to create link</span>
+        <span>{error || "Unable to create link"}</span>
       {/if}
     </div>
     <label class="paper-btn" for="modal-link">Nice!</label>

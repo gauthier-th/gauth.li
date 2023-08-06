@@ -2,11 +2,16 @@ import path from 'path'
 import fs from 'fs'
 import util from 'util'
 import { pipeline } from 'stream'
-import { generateId } from '../utils'
+import { generateId, getId } from '../database'
 import type { RouteOptions } from 'fastify'
 import type { PostgresDb } from 'fastify-postgres'
 import type { MultipartFile } from 'fastify-multipart'
 import type { DBFile, DBUser } from '../types/database'
+
+export type BodyProps = {
+  username: string;
+  password: string;
+}
 
 const pump = util.promisify(pipeline)
 
@@ -19,11 +24,22 @@ export const sharex: RouteOptions = {
       throw { statusCode: 400, message: 'Invalid body!' }
 
     const key = (data.fields.key as any).value
+    const name = (data.fields.name as any)?.value
     const user = await getUserByKey(request.server.pg, key)
     if (!user)
       throw { statusCode: 401, message: 'Invalid key!' }
 
-    const file = await saveFile(request.server.pg, data, user)
+    let id: string
+    if (name) {
+      id = name
+      if (await getId(request.server.pg, id))
+        throw { statusCode: 409, message: 'Name already taken!' }
+    }
+    else {
+      id = await generateId(request.server.pg)
+    }
+
+    const file = await saveFile(request.server.pg, id, data, user)
 
     return { message: 'Successfully uploaded!', file }
   },
@@ -37,9 +53,9 @@ async function getUserByKey(pg: PostgresDb, key: string): Promise<DBUser> {
   return rows.length > 0 ? rows[0] : null
 }
 
-async function saveFile(pg: PostgresDb, data: MultipartFile, user: DBUser): Promise<DBFile> {
+async function saveFile(pg: PostgresDb, id: string, data: MultipartFile, user: DBUser): Promise<DBFile> {
   const file: DBFile = {
-    id: generateId(),
+    id,
     filename: data.filename,
     mime: data.mimetype,
     userId: user.id,

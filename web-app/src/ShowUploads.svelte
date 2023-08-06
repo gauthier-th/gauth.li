@@ -63,6 +63,22 @@
 		fileToDelete = null;
 	}
 
+	async function downloadFile(file: DBFile) {
+		const blob = await fetch(`/${file.id}`, {
+			method: "POST",
+			headers: {},
+			body: JSON.stringify({ key }),
+		}).then((res) => res.blob());
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = file.filename;
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(url);
+	}
+
 </script>
 
 <div class="page-container container">
@@ -93,6 +109,7 @@
 							</td>
 							<td class="align-middle">{new Date(file.createdAt).toLocaleString()}</td>
 							<td class="align-middle">
+								<button class="btn-small" on:click={() => downloadFile(file)}>Download</button>
 								<button class="btn-danger btn-small" on:click={() => deleteFilePopup(file)}>Delete</button>
 							</td>
 						</tr>
