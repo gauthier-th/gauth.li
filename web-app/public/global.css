@@ -13,8 +13,14 @@ html {
 .justify-end {
   justify-content: end;
 }
+.align-start {
+  align-items: start;
+}
 .align-center {
   align-items: center;
+}
+.align-end {
+  align-items: end;
 }
 .flex-col {
   flex-direction: column;

@@ -19,7 +19,7 @@
 
 <div class="container">
 	<Login>
-		<Router url={url}>
+		<Router {url}>
 			<nav class="border fixed split-nav">
 				<div class="nav-brand">
 					<h3><Link to="/app/">gauth.li</Link></h3>
@@ -42,10 +42,10 @@
 				</div>
 			</nav>
 			<div>
-				<Route path="/app/" component="{ShowUploads}" />
-				<Route path="/app/new-upload" component="{NewUpload}" />
-				<Route path="/app/new-link" component="{NewLink}" />
-				<Route path="/app/settings" component="{Settings}" />
+				<Route path="/app/" component={ShowUploads} />
+				<Route path="/app/new-upload" component={NewUpload} />
+				<Route path="/app/new-link" component={NewLink} />
+				<Route path="/app/settings" component={Settings} />
 			</div>
 		</Router>
 	</Login>

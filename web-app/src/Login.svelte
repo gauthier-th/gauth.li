@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { keyStore } from './stores';
+	import { keyStore, usernameStore } from './stores';
 
 	let logged: boolean = false;
 	let username: string = "";
@@ -25,6 +25,7 @@
 			.then((res) => {
 				if (res.statusCode === 200) {
 					keyStore.set(res.key);
+					usernameStore.set(username);
 					logged = true;
 					username = "";
 					password = "";
