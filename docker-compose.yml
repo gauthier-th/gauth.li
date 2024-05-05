@@ -1,0 +1,15 @@
+name: gauth-li
+services:
+  app:
+    build:
+      context: .
+      args:
+        PUBLIC_API_BASE_URL: http://localhost:3000
+    volumes:
+      - /usr/src/app/server/node_modules
+    ports:
+      - ${PORT:-3000}:3000
+    environment:
+      - TZ=Europe/Paris
+      - CONNECTION_STRING=${CONNECTION_STRING}
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost:3000}

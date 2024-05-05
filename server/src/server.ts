@@ -19,7 +19,7 @@ server.register(fastifyFormbody)
 
 if (process.env.NODE_ENV === 'production') {
   server.register(fastifyStatic, {
-    root: path.join(__dirname, '../../app/build/'),
+    root: process.env.APP_BUILD_PATH || path.join(__dirname, '../../app/build/'),
     prefix: '/app/'
   })
   server.setNotFoundHandler((req, res) => {
@@ -45,7 +45,7 @@ export async function start() {
     registerRoutes()
 
     const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000
-    await server.listen({ port })
+    await server.listen({ port, host: '0.0.0.0' })
     console.log('Server listening on port ' + port)
   } catch (err) {
     server.log.error(err)
