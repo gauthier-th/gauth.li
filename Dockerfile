@@ -9,7 +9,8 @@ RUN npm install
 COPY app/ .
 
 ENV NODE_ENV production
-ARG APP_BASE_URL
+ARG BASE_URL
+ENV PUBLIC_API_BASE_URL ${BASE_URL}
 RUN npm run build
 
 FROM node:16 as server-builder
@@ -23,7 +24,6 @@ RUN npm install
 COPY server/ .
 
 ENV NODE_ENV production
-ARG APP_BASE_URL
 RUN npm run build
 
 FROM node:16
