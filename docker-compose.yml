@@ -14,3 +14,4 @@ services:
       - TZ=Europe/Paris
       - CONNECTION_STRING=${CONNECTION_STRING}
       - APP_BASE_URL=${BASE_URL}
+    restart: unless-stopped
